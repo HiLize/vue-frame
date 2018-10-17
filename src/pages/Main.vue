@@ -79,13 +79,13 @@
                         icon: 'ios-gear',
                         children: [
                             {
-                                name: 'crossTalk',
+                                name: 'crosstalk',
                                 title: '话题管理',
                                 icon: 'ios-paper',
                                 path: 'http://172.20.6.218:8000/admin.html#/crosstalkmanage'
                             },
                             {
-                                name: 'crossTalkCheck',
+                                name: 'crosstalkcheck',
                                 title: '话题稿征集审核',
                                 icon: 'ios-paper',
                                 path: 'http://172.20.6.218:8000/admin.html#/crosstalkmanage/checkmanage'
@@ -116,7 +116,7 @@
             handleSubmenuChange (val) {
                 console.log('handleSubmenuChange')
                 console.log(val)
-                this.$router.push('/home/crossTalkeCheck')
+                this.$router.push(`/home/${val}`)
             },
             beforePush (name) {
                 return false;
