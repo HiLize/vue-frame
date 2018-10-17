@@ -19,7 +19,13 @@ export default new VueRouter({
             children: [
                 {
                     path: '/home/crossTalke',
-                    name: 'crossTalk',
+                    name: 'crosstalk',
+                    component: require('@/pages/Login').default,
+                    meta: {title: '话题管理'}
+                },
+                {
+                    path: '/home/crossTalkeCheck',
+                    name: '/crosstalkmanage/check',
                     component: require('@/pages/Login').default,
                     meta: {title: '话题管理'}
                 }

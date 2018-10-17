@@ -71,7 +71,7 @@
             return {
                 shrink: false,
                 userName: '',
-                openedSubmenuArr: [],
+                openedSubmenuArr: ['crossTalk'],
                 menuList:[
                     {
                         name: 'crossTalk',
@@ -79,14 +79,16 @@
                         icon: 'ios-gear',
                         children: [
                             {
-                                name: 'crossTalk1',
+                                name: 'crossTalk',
                                 title: '话题管理',
-                                icon: 'ios-paper'
+                                icon: 'ios-paper',
+                                path: 'http://172.20.6.218:8000/admin.html#/crosstalkmanage'
                             },
                             {
-                                name: 'crossTalk2',
+                                name: 'crossTalkCheck',
                                 title: '话题稿征集审核',
-                                icon: 'ios-paper'
+                                icon: 'ios-paper',
+                                path: 'http://172.20.6.218:8000/admin.html#/crosstalkmanage/checkmanage'
                             }
                         ]
                     }
@@ -114,6 +116,7 @@
             handleSubmenuChange (val) {
                 console.log('handleSubmenuChange')
                 console.log(val)
+                this.$router.push('/home/crossTalkeCheck')
             },
             beforePush (name) {
                 return false;

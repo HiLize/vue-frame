@@ -5,6 +5,12 @@
 <script>
 export default {
     components: {
+    },
+    watch: {
+        '$route' (to, from) {
+            console.log(to, from)
+            this.src = `http://172.20.6.218:8000/admin.html#/${to.name}manage`
+        }
     }
 }
 </script>
