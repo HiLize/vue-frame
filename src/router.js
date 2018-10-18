@@ -15,19 +15,17 @@ export default new VueRouter({
         {
             path: '/home',
             name: 'home',
+            component: Main
+        },
+        {
+            path: '/manage',
+            name: 'manage',
             component: Main,
             children: [
                 {
-                    path: '/home/crosstalk',
-                    name: 'crosstalk',
-                    component: require('@/pages/Login').default,
-                    meta: {title: '话题管理'}
-                },
-                {
-                    path: '/home/crosstalkcheck',
-                    name: 'crosstalkcheck',
-                    component: require('@/pages/Login').default,
-                    meta: {title: '话题稿征集审核'}
+                    path: '/manage/:module?',
+                    name: '',
+                    component: require('@/pages/Content').default
                 }
             ]
         }

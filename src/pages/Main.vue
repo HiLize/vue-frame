@@ -71,28 +71,8 @@
             return {
                 shrink: false,
                 userName: '',
-                openedSubmenuArr: ['crossTalk'],
-                menuList:[
-                    {
-                        name: 'crossTalk',
-                        title: '话题管理',
-                        icon: 'ios-gear',
-                        children: [
-                            {
-                                name: 'crosstalk',
-                                title: '话题管理',
-                                icon: 'ios-paper',
-                                path: 'http://172.20.6.218:8000/admin.html#/crosstalkmanage'
-                            },
-                            {
-                                name: 'crosstalkcheck',
-                                title: '话题稿征集审核',
-                                icon: 'ios-paper',
-                                path: 'http://172.20.6.218:8000/admin.html#/crosstalkmanage/checkmanage'
-                            }
-                        ]
-                    }
-                ],
+                openedSubmenuArr: [this.$route.params.module],
+                menuList: this.$store.state.menu.menuList,
                 avatorPath: 'http://img17.3lian.com/d/file/201703/06/ea0b5efc8ab75167dd7655bcc16defca.jpg',
                 currentPath: [
                     {
@@ -116,7 +96,7 @@
             handleSubmenuChange (val) {
                 console.log('handleSubmenuChange')
                 console.log(val)
-                this.$router.push(`/home/${val}`)
+                this.$router.push({path: `/manage/${val}`})
             },
             beforePush (name) {
                 return false;
