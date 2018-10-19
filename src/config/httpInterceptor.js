@@ -11,6 +11,7 @@
 
     // 检查是否登陆，若未登录则跳转到登陆页
     function _checkToLogin(response) {
+        console.log(response, '检查是否登陆')
         
         if (response && 
             response.datas && 

@@ -23,7 +23,8 @@ const JS_LIBS = [
 
 module.exports = {
     proxy: {
-        '/wec-cpdaily-admin-frame': 'http://172.20.6.75:8080'
+        '/wec-cpdaily-admin-frame': 'http://172.20.6.75:8080',
+        '/v3': 'http://next.wisedu.com:8013'
     },
     alias: {
         '@': 'src',

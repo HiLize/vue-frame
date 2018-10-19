@@ -22,13 +22,13 @@ export default {
     },
     methods: {
         buildSrc (route) {
-            console.log(route, 'build src', this.menuList)
             if (typeof this.menuList !== 'undefined') {
                 let menuList = this.menuList
                 for (let i = 0; i < menuList.length; i++) {
                     for (let j = 0; j < menuList[i].children.length; j++) {
                         if (route.params.module === menuList[i].children[j].name) {
                             this.src = menuList[i].children[j].path
+                            document.title = menuList[i].children[j].title // 修改body title的值
                             break
                         }
                     }

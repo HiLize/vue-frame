@@ -72,7 +72,6 @@
                 shrink: false,
                 userName: '',
                 openedSubmenuArr: [this.$route.params.module],
-                menuList: this.$store.state.menu.menuList,
                 avatorPath: 'http://img17.3lian.com/d/file/201703/06/ea0b5efc8ab75167dd7655bcc16defca.jpg',
                 currentPath: [
                     {
@@ -88,14 +87,18 @@
             menuTheme () {
                 return this.$store.state.app.menuTheme;
             },
+            menuList () {
+                console.log(this.$store.state.menu.menuList, 'computed')
+                return this.$store.state.menu.menuList
+            }
         },
         methods: {
             toggleClick () {
                 this.shrink = !this.shrink;
             },
             handleSubmenuChange (val) {
-                console.log('handleSubmenuChange')
-                console.log(val)
+                // console.log('handleSubmenuChange')
+                // console.log(val)
                 this.$router.push({path: `/manage/${val}`})
             },
             beforePush (name) {
@@ -104,13 +107,36 @@
             scrollBarResize () {
                 this.$refs.scrollBar.resize();
             },
-            getMenuList () {
-                util.httpPost(api.menuList,{},{}).then(res => {
-                    console.log(res)
-                    if(res && res.code == '0'){
-                        this.menuList = res.datas
+            rebuildMenuList (list) {
+                // 重构导航列表
+                let menus = []
+                let newBasePath = 'http://next.wisedu.com:8013'
+                let oldBasePath = 'http://next.wisedu.com:8013/v3/admin/cpdaily/index.html#/'
+                list.map(function (item, index) {
+                    let data = {
+                        name: item.resId,
+                        title: item.resDisplay,
+                        icon: 'ios-gear',
+                        children: [
+                            {
+                                name: item.resId,
+                                title: item.resDisplay,
+                                icon: 'ios-gear',
+                                path: item.resValue.indexOf('/whole/admin.html') !== -1 ? newBasePath + item.resValue : oldBasePath + item.resValue
+                            }
+                        ]
                     }
+                    menus.push(data)
                 })
+                return menus
+            },
+            getMenuList () {
+                // util.httpGet(api.userOwner,{},{}).then(res => {
+                //     if(res && res.code == '0'){
+                //         let menus = this.rebuildMenuList(res.datas.adminResList)
+                        this.$store.dispatch('setMenuList', this)
+                //     }
+                // })
             },
             getUserInfo(){
                 util.httpPost(api.userInfo,{},{}).then(res => {
@@ -119,7 +145,7 @@
             }
         },
         mounted () {
-            // this.getMenuList()
+            this.getMenuList()
             // this.getUserInfo()
             window.addEventListener('resize', this.scrollBarResize);
         },

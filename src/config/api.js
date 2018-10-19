@@ -7,6 +7,7 @@ let dataPath = (path) => {
 }
 
 export default {
+    userOwner: '/v3/admin/userOwner',
     menuList: dataPath(`${ROOT_PATH}/menu/list`),
     userInfo: dataPath(`${ROOT_PATH}/user/info`),
 }
