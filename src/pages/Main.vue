@@ -34,6 +34,7 @@
                 <div class="header-avator-con">
                     <div class="user-dropdown-menu-con">
                         <Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">
+                        <span style="color: #000;display: inline-block;width: 40px;height: 16px;border: 1px solid #f00;" @click="btn">{{this.$store.state.menu.count}}</span>
                             <span>xxxx</span>
                             <Avatar :src="avatorPath" style="background: #619fe7;margin-left: 10px;"></Avatar>
                         </Row>
@@ -69,6 +70,7 @@
         },
         data () {
             return {
+                count: this.$store.state.menu.count,
                 shrink: false,
                 userName: '',
                 openedSubmenuArr: [this.$route.params.module],
@@ -90,6 +92,10 @@
             menuList () {
                 console.log(this.$store.state.menu.menuList, 'computed')
                 return this.$store.state.menu.menuList
+            },
+            count: function () {
+                console.warn(this.$store.state.menu)
+                return this.$store.state.menu.count
             }
         },
         methods: {
@@ -130,6 +136,9 @@
                 })
                 return menus
             },
+            btn () {
+                this.$store.dispatch('addCount')
+            },
             getMenuList () {
                 // util.httpGet(api.userOwner,{},{}).then(res => {
                 //     if(res && res.code == '0'){
@@ -147,12 +156,12 @@
         mounted () {
             this.getMenuList()
             // this.getUserInfo()
-            window.addEventListener('resize', this.scrollBarResize);
+            // window.addEventListener('resize', this.scrollBarResize);
         },
         created () {
         },
-        dispatch () {
-            window.removeEventListener('resize', this.scrollBarResize);
-        }
+        // dispatch () {
+        //     window.removeEventListener('resize', this.scrollBarResize);
+        // }
     };
 </script>
