@@ -34,7 +34,6 @@
                 <div class="header-avator-con">
                     <div class="user-dropdown-menu-con">
                         <Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">
-                        <span style="color: #000;display: inline-block;width: 40px;height: 16px;border: 1px solid #f00;" @click="btn">{{this.$store.state.menu.count}}</span>
                             <span>xxxx</span>
                             <Avatar :src="avatorPath" style="background: #619fe7;margin-left: 10px;"></Avatar>
                         </Row>
@@ -74,7 +73,7 @@
                 shrink: false,
                 userName: '',
                 openedSubmenuArr: [this.$route.params.module],
-                avatorPath: 'http://img17.3lian.com/d/file/201703/06/ea0b5efc8ab75167dd7655bcc16defca.jpg',
+                avatorPath: '', //http://img17.3lian.com/d/file/201703/06/ea0b5efc8ab75167dd7655bcc16defca.jpg
                 currentPath: [
                     {
                         title: '首页',
@@ -90,12 +89,8 @@
                 return this.$store.state.app.menuTheme;
             },
             menuList () {
-                console.log(this.$store.state.menu.menuList, 'computed')
+                console.log(this.$store.state.menu.menuList, 'main list')
                 return this.$store.state.menu.menuList
-            },
-            count: function () {
-                console.warn(this.$store.state.menu)
-                return this.$store.state.menu.count
             }
         },
         methods: {
@@ -105,7 +100,7 @@
             handleSubmenuChange (val) {
                 // console.log('handleSubmenuChange')
                 // console.log(val)
-                this.$router.push({path: `/manage/${val}`})
+                this.$router.push({path: `/home/${val}`})
             },
             beforePush (name) {
                 return false;
@@ -113,39 +108,8 @@
             scrollBarResize () {
                 this.$refs.scrollBar.resize();
             },
-            rebuildMenuList (list) {
-                // 重构导航列表
-                let menus = []
-                let newBasePath = 'http://next.wisedu.com:8013'
-                let oldBasePath = 'http://next.wisedu.com:8013/v3/admin/cpdaily/index.html#/'
-                list.map(function (item, index) {
-                    let data = {
-                        name: item.resId,
-                        title: item.resDisplay,
-                        icon: 'ios-gear',
-                        children: [
-                            {
-                                name: item.resId,
-                                title: item.resDisplay,
-                                icon: 'ios-gear',
-                                path: item.resValue.indexOf('/whole/admin.html') !== -1 ? newBasePath + item.resValue : oldBasePath + item.resValue
-                            }
-                        ]
-                    }
-                    menus.push(data)
-                })
-                return menus
-            },
-            btn () {
-                this.$store.dispatch('addCount')
-            },
             getMenuList () {
-                // util.httpGet(api.userOwner,{},{}).then(res => {
-                //     if(res && res.code == '0'){
-                //         let menus = this.rebuildMenuList(res.datas.adminResList)
-                        this.$store.dispatch('setMenuList', this)
-                //     }
-                // })
+                this.$store.dispatch('setMenuList', this)
             },
             getUserInfo(){
                 util.httpPost(api.userInfo,{},{}).then(res => {
@@ -154,14 +118,14 @@
             }
         },
         mounted () {
-            this.getMenuList()
+            // this.getMenuList()
             // this.getUserInfo()
-            // window.addEventListener('resize', this.scrollBarResize);
+            window.addEventListener('resize', this.scrollBarResize);
         },
         created () {
         },
-        // dispatch () {
-        //     window.removeEventListener('resize', this.scrollBarResize);
-        // }
+        dispatch () {
+            window.removeEventListener('resize', this.scrollBarResize);
+        }
     };
 </script>

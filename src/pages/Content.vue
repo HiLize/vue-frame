@@ -1,5 +1,8 @@
 <template>
+<div>
     <iframe :src="src" style="border: 0; width: 100%; height: 100%;"></iframe>
+    {{this.$route.name}}
+</div>
 </template>
 
 <script>
@@ -8,17 +11,28 @@ export default {
     },
     data () {
     	return {
-            menuList: this.$store.state.menu.menuList,
-    		src: ''
+    		src: 'http://next.wisedu.com:8013/v3/admin/cpdaily/new/whole/admin.html#/yibanlog'
     	}
+    },
+    computed: {
+        menuList () {
+            return this.$store.state.menu.menuList
+        }
     },
     watch: {
         '$route' (to, from) {
-            this.buildSrc(to)
+            console.log(to, this.$router, 'luyou jiankong')
+            // this.buildSrc(to)
+        },
+        menuList (val, oldVal) {
+            console.log(val, 'hello')
+            // this.buildSrc(this.$route)
         }
     },
     created () {
-        this.buildSrc(this.$route)
+        console.log(this.$route, 'content create')
+        this.src = this.$route.meta.path
+        // this.buildSrc(this.$route)
     },
     methods: {
         buildSrc (route) {
@@ -28,7 +42,6 @@ export default {
                     for (let j = 0; j < menuList[i].children.length; j++) {
                         if (route.params.module === menuList[i].children[j].name) {
                             this.src = menuList[i].children[j].path
-                            document.title = menuList[i].children[j].title // 修改body title的值
                             break
                         }
                     }
