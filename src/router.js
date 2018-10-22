@@ -33,17 +33,17 @@ export const DynamicRoutes = [
     {
         path: '/home',
         name: 'home',
-        component: require('@/pages/Main').default,
+        component: require('@/pages/Main').default, // require('@/pages/Main').default
         children: [
-            // {
-            //     path: '/home',
-            //     component: require('@/pages/Content').default,
-            //     name: 'home',
-            //     meta: {
-            //         title: '首页',
-            //         icon: 'ios-home'
-            //     }
-            // }
+            {
+                path: '/home',
+                component: require('@/pages/Content').default,
+                name: 'home',
+                meta: {
+                    title: '首页',
+                    icon: 'ios-home'
+                }
+            }
         ]
     }
 ]

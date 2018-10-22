@@ -3,6 +3,7 @@ import util from 'util'
 import router, { DynamicRoutes } from '@/router'
 const app = {
     state: {
+        isLogin: false,
         hasRoute: false,
         menuList: [
             // {
@@ -76,20 +77,24 @@ const app = {
         },
         hasRouter (state, status) {
             state.hasRoute = status
+        },
+        isLogin (state, status) {
+            state.isLogin = status
         }
     },
     actions: {
-        setMenuList: function (context) {
-            util.httpGet(api.userOwner,{},{}).then(res => {
-                if(res && res.code == '0'){
-                    let menus = rebuildMenuList(res.datas.adminResList)
-                    context.commit('updateState', menus)
-                    let MainContainer = DynamicRoutes.find(v => v.path === '/home')
-                    let routerArr = MainContainer.children.concat(rebuildRoute(res.datas.adminResList))
-                    router.addRoutes(routerArr)
-                    context.commit('hasRouter', true)
-                }
-            })
+        async setMenuList (context) {
+            // util.httpGet(api.userOwner,{},{}).then(res => {
+            //     if(res && res.code == '0'){
+            //         let menus = rebuildMenuList(res.datas.adminResList)
+            //         context.commit('updateState', menus)
+            //         let MainContainer = DynamicRoutes.find(v => v.path === '/home')
+            //         let routerArr = MainContainer.children.concat(rebuildRoute(res.datas.adminResList))
+            //         MainContainer.children = routerArr
+            //         router.addRoutes([MainContainer])
+            //         context.commit('hasRouter', true)
+            //     }
+            // })
         }
     }
 };

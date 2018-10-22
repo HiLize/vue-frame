@@ -5,7 +5,8 @@
 export default {
     methods: {
         login () {
-            this.$router.push('home')
+            this.$store.commit('isLogin', true)
+            this.$router.replace('/home')
         }
     }
 }

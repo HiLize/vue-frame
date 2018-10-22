@@ -13,12 +13,23 @@ router.beforeEach((to, from, next) => {
     if (to.meta.title) {
         document.title = to.meta.title
     }
-    console.log(router, 'beforeEach')
-    if (!store.state.menu.hasRoute) {
-        store.dispatch('setMenuList')
-        next()
+    if (!store.state.menu.isLogin) {
+        if (
+            to.matched.length > 0 &&
+            !to.matched.some(record => record.meta.requiresAuth)
+        ) {
+            next()
+        } else {
+            next({ path: '/login' })
+        }
     } else {
-        next()
+        if (!store.state.menu.hasRoute) {
+            store.dispatch('setMenuList').then(data => {
+                next({path: to.path})
+            })
+        } else {
+            next()
+        }
     }
 })
 
