@@ -99,7 +99,7 @@
             handleSubmenuChange (val) {
                 // console.log('handleSubmenuChange')
                 // console.log(val)
-                this.$router.push({path: `/home/${val}`})
+                this.$router.push({path: `/manage/${val}`})
             },
             beforePush (name) {
                 return false;

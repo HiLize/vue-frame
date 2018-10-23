@@ -13,7 +13,8 @@ router.beforeEach((to, from, next) => {
     if (to.meta.title) {
         document.title = to.meta.title
     }
-    if (!store.getters.userToken) {
+    console.log(store.state.menu.userToken === '', 'hello', store.state.menu.menuList.length)
+    if (store.state.menu.userToken === '') {
         // 未登录
         if (to.matched.length > 0 &&
         !to.matched.some(record => record.meta.requiresAuth)) {

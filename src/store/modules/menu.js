@@ -3,7 +3,7 @@ import util from 'util'
 import router, { DynamicRoutes } from '@/router'
 const app = {
     state: {
-        isLogin: false,
+        userToken: '',
         menuList: [
             // 导航数据结构
             // {
@@ -28,20 +28,18 @@ const app = {
         ]
     },
     getters: {
-        userToken: state => {
-            if (state.isLogin === false) {
-                let userToken = getCookie('adminSessionToken')
-                return userToken
-            }
-            return state.isLogin
-        }
     },
     mutations: {
         updateState (state, newData) {
             state.menuList = newData
         },
-        isLogin (state, status) {
-            state.isLogin = status
+        Login (state, status) {
+            if (status === '') {
+                delCookie('adminSessionToken')
+            } else {
+                setCookie('adminSessionToken', status)
+            }
+            state.userToken = status
         }
     },
     actions: {
@@ -55,6 +53,8 @@ const app = {
                     let routerArr = MainContainer.children.concat(rebuildRoute(res.datas.adminResList))
                     MainContainer.children = routerArr
                     router.addRoutes([MainContainer])
+                } else {
+                    context.commit('Login', '')
                 }
             })
         }
@@ -68,7 +68,7 @@ function rebuildRoute (datas) {
     let routeMenu = []
     datas.map(function (item, index) {
         routeMenu.push({
-            path: `/home/${item.resId}`,
+            path: `/manage/${item.resId}`,
             name: item.resId,
             meta: {title: item.resDisplay, path: item.resValue.indexOf('/whole/admin.html') !== -1 ? newBasePath + item.resValue : oldBasePath + item.resValue},
             component: require('@/pages/Content').default
@@ -108,8 +108,25 @@ function getCookie(name) {
     if (arr = document.cookie.match(reg)) {
         return unescape(arr[2])
     } else {
-        return null
+        return ''
     }
 }
+// 设置cookie
+function setCookie(name,value) 
+{ 
+    var Days = 30; 
+    var exp = new Date(); 
+    exp.setTime(exp.getTime() + Days*24*60*60*1000); 
+    document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString(); 
+} 
+// 删除cookie
+function delCookie(name) 
+{ 
+    var exp = new Date(); 
+    exp.setTime(exp.getTime() - 1); 
+    var cval=getCookie(name); 
+    if(cval!=null) 
+        document.cookie= name + "="+cval+";expires="+exp.toGMTString(); 
+} 
 
 export default app;
