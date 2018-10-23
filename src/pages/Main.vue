@@ -89,7 +89,6 @@
                 return this.$store.state.app.menuTheme;
             },
             menuList () {
-                console.log(this.$store.state.menu.menuList, 'main list')
                 return this.$store.state.menu.menuList
             }
         },

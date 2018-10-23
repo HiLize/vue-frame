@@ -1,6 +1,5 @@
-import Main from '@/pages/Main'
+// import Main from '@/pages/Main'
 import Login from '@/pages/Login'
-import store from '@/store'
 
 export default new VueRouter({
     routes: [
@@ -12,18 +11,6 @@ export default new VueRouter({
         {
             path: '/',
             redirect: '/login'
-        },
-        {
-            path: '/manage',
-            name: 'manage',
-            component: Main,
-            children: [
-                // {
-                //     path: '/manage/:module?',
-                //     name: '',
-                //     component: require('@/pages/Content').default
-                // }
-            ]
         }
     ]
 })
@@ -31,19 +18,13 @@ export default new VueRouter({
 /* 准备动态添加的路由 */
 export const DynamicRoutes = [
     {
-        path: '/home',
-        name: 'home',
+        path: '/manage',
+        name: 'manage',
         component: require('@/pages/Main').default, // require('@/pages/Main').default
-        children: [
-            {
-                path: '/home',
-                component: require('@/pages/Content').default,
-                name: 'home',
-                meta: {
-                    title: '首页',
-                    icon: 'ios-home'
-                }
-            }
-        ]
+        meta: {
+            requiresAuth: true,
+            title: '后台管理'
+        },
+        children: []
     }
 ]

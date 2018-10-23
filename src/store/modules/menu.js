@@ -4,21 +4,8 @@ import router, { DynamicRoutes } from '@/router'
 const app = {
     state: {
         isLogin: false,
-        hasRoute: false,
         menuList: [
-            // {
-            //     name: 'tribe',
-            //     title: '群聊管理',
-            //     icon: 'ios-gear',
-            //     children: [
-            //         {
-            //             name: 'tribe',
-            //             title: '群聊管理',
-            //             icon: 'ios-gear',
-            //             path: 'http://172.20.6.218:8000/admin.html#/'
-            //         }
-            //     ]
-            // },
+            // 导航数据结构
             // {
             //     name: 'crossTalk',
             //     title: '话题管理',
@@ -37,68 +24,44 @@ const app = {
             //             path: 'http://172.20.6.218:8000/admin.html#/crosstalkmanage/checkmanage'
             //         }
             //     ]
-            // },
-            // {
-            //     name: 'circlecontent',
-            //     title: '动态审核管理',
-            //     icon: 'ios-gear',
-            //     children: [
-            //         {
-            //             name: 'circlecontent',
-            //             title: '动态审核管理',
-            //             icon: 'ios-gear',
-            //             path: 'http://172.20.6.218:8000/admin.html#/circlecontentmanage'
-            //         }
-            //     ]
-            // },
-            // {
-            //     name: 'yibanlog',
-            //     title: '易班操作日志',
-            //     icon: 'ios-gear',
-            //     children: [
-            //         {
-            //             name: 'yibanlog',
-            //             title: '易班操作日志',
-            //             icon: 'ios-gear',
-            //             path: 'http://172.20.6.218:8000/admin.html#/yibanlog'
-            //         }
-            //     ]
             // }
         ]
     },
     getters: {
-        routerMenu: state => {
-            console.log(state.menuList, 'getters')
+        userToken: state => {
+            if (state.isLogin === false) {
+                let userToken = getCookie('adminSessionToken')
+                return userToken
+            }
+            return state.isLogin
         }
     },
     mutations: {
         updateState (state, newData) {
             state.menuList = newData
         },
-        hasRouter (state, status) {
-            state.hasRoute = status
-        },
         isLogin (state, status) {
             state.isLogin = status
         }
     },
     actions: {
-        async setMenuList (context) {
-            // util.httpGet(api.userOwner,{},{}).then(res => {
-            //     if(res && res.code == '0'){
-            //         let menus = rebuildMenuList(res.datas.adminResList)
-            //         context.commit('updateState', menus)
-            //         let MainContainer = DynamicRoutes.find(v => v.path === '/home')
-            //         let routerArr = MainContainer.children.concat(rebuildRoute(res.datas.adminResList))
-            //         MainContainer.children = routerArr
-            //         router.addRoutes([MainContainer])
-            //         context.commit('hasRouter', true)
-            //     }
-            // })
+        setMenuList (context) {
+            util.httpGet(api.userOwner,{},{}).then(res => {
+                if(res && res.code == '0'){
+                    let menus = rebuildMenuList(res.datas.adminResList)
+                    context.commit('updateState', menus)
+
+                    let MainContainer = DynamicRoutes.find(v => v.path === '/manage')
+                    let routerArr = MainContainer.children.concat(rebuildRoute(res.datas.adminResList))
+                    MainContainer.children = routerArr
+                    router.addRoutes([MainContainer])
+                }
+            })
         }
     }
 };
 
+// 重构动态添加路由数组
 function rebuildRoute (datas) {
     let newBasePath = 'http://next.wisedu.com:8013'
     let oldBasePath = 'http://next.wisedu.com:8013/v3/admin/cpdaily/index.html#/'
@@ -114,9 +77,9 @@ function rebuildRoute (datas) {
     return routeMenu
 }
 
+// 重构导航列表数组
 function rebuildMenuList (state) {
     let list =  [].concat(JSON.parse(JSON.stringify(state)))
-    // 重构导航列表
     let menus = []
     let newBasePath = 'http://next.wisedu.com:8013'
     let oldBasePath = 'http://next.wisedu.com:8013/v3/admin/cpdaily/index.html#/'
@@ -137,6 +100,16 @@ function rebuildMenuList (state) {
         menus.push(data)
     })
     return menus
+}
+
+// 获取cookie登陆token
+function getCookie(name) {
+    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+    if (arr = document.cookie.match(reg)) {
+        return unescape(arr[2])
+    } else {
+        return null
+    }
 }
 
 export default app;
