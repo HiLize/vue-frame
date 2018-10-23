@@ -1,5 +1,7 @@
 <template>
-    <iframe :src="src" style="border: 0; width: 100%; height: 100%;"></iframe>
+    <transition-group name="taglist-moving-animation" mode="out-in">
+        <iframe :key='src' :src="src" style="border: 0; width: 100%; height: 100%;"></iframe>
+    </transition-group>
 </template>
 
 <script>
