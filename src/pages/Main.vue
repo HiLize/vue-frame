@@ -35,7 +35,7 @@
                     <div class="user-dropdown-menu-con">
                         <Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">
                             <span>xxxx</span>
-                            <Avatar :src="avatorPath" style="background: #619fe7;margin-left: 10px;"></Avatar>
+                            <Avatar icon="ios-person" style="background: #619fe7;margin-left: 10px;"></Avatar>
                         </Row>
                     </div>
                 </div>
@@ -97,8 +97,6 @@
                 this.shrink = !this.shrink;
             },
             handleSubmenuChange (val) {
-                // console.log('handleSubmenuChange')
-                // console.log(val)
                 this.$router.push({path: `/manage/${val}`})
             },
             beforePush (name) {
