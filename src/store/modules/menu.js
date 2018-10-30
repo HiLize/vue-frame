@@ -63,14 +63,15 @@ const app = {
 
 // 重构动态添加路由数组
 function rebuildRoute (datas) {
-    let newBasePath = 'http://next.wisedu.com:8013'
+    // let newBasePath = 'http://next.wisedu.com:8013'
+    let newBasePath = 'http://172.20.6.218:8000/admin.html#/'
     let oldBasePath = 'http://next.wisedu.com:8013/v3/admin/cpdaily/index.html#/'
     let routeMenu = []
     datas.map(function (item, index) {
         routeMenu.push({
             path: `/manage/${item.resId}`,
             name: item.resId,
-            meta: {title: item.resDisplay, path: item.resValue.indexOf('/whole/admin.html') !== -1 ? newBasePath + item.resValue : oldBasePath + item.resValue},
+            meta: {title: item.resDisplay, path: item.resValue.indexOf('/whole/admin.html') !== -1 ? newBasePath + item.resValue.split('/whole/admin.html#/')[1] : oldBasePath + item.resValue},
             component: require('@/pages/Content').default
         })
     })
@@ -81,7 +82,8 @@ function rebuildRoute (datas) {
 function rebuildMenuList (state) {
     let list =  [].concat(JSON.parse(JSON.stringify(state)))
     let menus = []
-    let newBasePath = 'http://next.wisedu.com:8013'
+    // let newBasePath = 'http://next.wisedu.com:8013'
+    let newBasePath = 'http://172.20.6.218:8000'
     let oldBasePath = 'http://next.wisedu.com:8013/v3/admin/cpdaily/index.html#/'
     list.map(function (item, index) {
         let data = {

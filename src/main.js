@@ -13,21 +13,22 @@ router.beforeEach((to, from, next) => {
     if (to.meta.title) {
         document.title = to.meta.title
     }
-    if (store.state.menu.userToken === '') {
-        // 未登录
-        if (to.matched.length > 0 &&
-        !to.matched.some(record => record.meta.requiresAuth)) {
-            next()
-        } else {
-            next({ path: '/login' })
-        }
-    } else {
+    console.log('parent beforEach')
+    // if (store.state.menu.userToken === '') {
+    //     // 未登录
+    //     if (to.matched.length > 0 &&
+    //     !to.matched.some(record => record.meta.requiresAuth)) {
+    //         next()
+    //     } else {
+    //         next({ path: '/login' })
+    //     }
+    // } else {
         // 已登录，是否已获取到导航列表，若未获取，则获取导航数据并动态添加路由，若以获取避免重复添加导航
         if (store.state.menu.menuList.length <= 0) {
             store.dispatch('setMenuList')
         }
         next()
-    }
+    // }
 })
 
 /* eslint-disable no-new */

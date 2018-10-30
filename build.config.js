@@ -18,12 +18,13 @@ const JS_LIBS = [
     '//cdn.bootcss.com/jquery/3.2.1/jquery',
     '//feres.cpdaily.com/bower_components/jquery-qrcode/jquery.qrcode.min.js',
     '//cdn.bootcss.com/dom-to-image/2.6.0/dom-to-image.min.js',
-    '//feres.cpdaily.com/bower_components/jquery.nicescroll/jquery.nicescroll.min.js'
+    '//feres.cpdaily.com/bower_components/jquery.nicescroll/jquery.nicescroll.min.js',
+    '//feres.cpdaily.com/cpdaily/cpdailyqr.js'
 ];
 
 module.exports = {
     proxy: {
-        '/wec-cpdaily-admin-frame': 'http://172.20.6.75:8080',
+        '/wec-cpdaily-admin-frame': 'http://media.wectest.wisedu.com',
         '/v3': 'http://next.wisedu.com:8013'
     },
     alias: {
