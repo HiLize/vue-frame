@@ -9,11 +9,11 @@ import store from './store';
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
+    // console.log(to, 'hello beforeEach router', store.state.menu.menuList)
     /* 路由发生变化修改页面title */
     if (to.meta.title) {
         document.title = to.meta.title
     }
-    console.log('parent beforEach')
     // if (store.state.menu.userToken === '') {
     //     // 未登录
     //     if (to.matched.length > 0 &&
