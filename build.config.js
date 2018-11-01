@@ -4,7 +4,7 @@
 
 const CSS_LIBS = [
     '//cdn.bootcss.com/normalize/7.0.0/normalize',
-    '//cdn.bootcss.com/iview/2.8.0/styles/iview.css',
+    '//cdn.bootcss.com/iview/3.1.3/styles/iview.css',
     '//feres.cpdaily.com/custom/forNOBH/position_assistance.css'
 ];
 
@@ -14,7 +14,7 @@ const JS_LIBS = [
     '//cdn.bootcss.com/vue-i18n/5.0.3/vue-i18n',
     '//cdn.bootcss.com/vuex/2.2.1/vuex',
     '//cdn.bootcss.com/axios/0.15.3/axios',
-    '//cdn.bootcss.com/iview/2.8.0/iview',
+    '//cdn.bootcss.com/iview/3.1.3/iview',
     '//cdn.bootcss.com/jquery/3.2.1/jquery',
     '//feres.cpdaily.com/bower_components/jquery-qrcode/jquery.qrcode.min.js',
     '//cdn.bootcss.com/dom-to-image/2.6.0/dom-to-image.min.js',
