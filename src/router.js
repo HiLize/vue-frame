@@ -1,5 +1,6 @@
 // import Main from '@/pages/Main'
 import Login from '@/pages/Login'
+import NotFound from '@/pages/NotFound'
 
 export default new VueRouter({
     routes: [
@@ -26,5 +27,9 @@ export const DynamicRoutes = [
             title: '后台管理'
         },
         children: []
+    },
+    {
+        path: '*',
+        component: NotFound
     }
 ]
