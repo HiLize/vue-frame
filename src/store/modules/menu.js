@@ -46,19 +46,20 @@ const app = {
     },
     actions: {
         setMenuList (context) {
-            util.httpGet(api.userOwner,{},{}).then(res => {
+            util.httpGet(api.routeList,{},{}).then(res => {
                 if(res && res.code == '0'){
-                    let menus = rebuildMenuList(res.datas.adminResList)
+                    let menus = rebuildMenuList(res.datas)
                     context.commit('updateState', menus)
 
                     let MainContainer = DynamicRoutes.find(v => v.path === '/manage')
-                    let routerArr = MainContainer.children.concat(rebuildRoute(res.datas.adminResList))
+                    let routerArr = MainContainer.children.concat(rebuildRoute(res.datas))
                     MainContainer.children = routerArr
                     router.addRoutes(DynamicRoutes)
-                    console.log(MainContainer, menus)
                 } else {
                     context.commit('Login', '')
                 }
+            }).catch(e => {
+                context.commit('Login', '')
             })
         }
     }
@@ -66,17 +67,25 @@ const app = {
 
 // 重构动态添加路由数组
 function rebuildRoute (datas) {
-    // let newBasePath = 'http://next.wisedu.com:8013'
-    let newBasePath = 'http://172.20.6.224:8000/admin.html#/'
-    let oldBasePath = 'http://next.wisedu.com:8013/v3/admin/cpdaily/index.html#/'
     let routeMenu = []
     datas.map(function (item, index) {
-        routeMenu.push({
-            path: `/manage/${item.resId}`,
-            name: item.resId,
-            meta: {title: item.resDisplay, path: item.resValue.indexOf('/whole/admin.html') !== -1 ? newBasePath + item.resValue.split('/whole/admin.html#/')[1] : oldBasePath + item.resValue},
-            component: require('@/pages/Content').default
-        })
+        if (item.subMenus.length <= 0) {
+            routeMenu.push({
+                path: `/manage/${item.menuLocalRoute}`,
+                name: item.menuLocalRoute,
+                meta: {title: item.menuName, path: item.menuUrl},
+                component: require('@/pages/Content').default
+            })
+        } else {
+            item.subMenus.map(function (subitem, index) {
+                routeMenu.push({
+                    path: `/manage/${subitem.menuLocalRoute}`,
+                    name: subitem.menuLocalRoute,
+                    meta: {title: subitem.menuName, path: subitem.menuUrl},
+                    component: require('@/pages/Content').default
+                })
+            })
+        }
     })
     return routeMenu
 }
@@ -85,23 +94,22 @@ function rebuildRoute (datas) {
 function rebuildMenuList (state) {
     let list =  [].concat(JSON.parse(JSON.stringify(state)))
     let menus = []
-    // let newBasePath = 'http://next.wisedu.com:8013'
-    let newBasePath = 'http://172.20.6.224:8000'
-    let oldBasePath = 'http://next.wisedu.com:8013/v3/admin/cpdaily/index.html#/'
     list.map(function (item, index) {
         let data = {
-            name: item.resId,
-            title: item.resDisplay,
+            name: item.menuId,
+            title: item.menuName,
             icon: 'ios-gear',
-            children: [
-                {
-                    name: item.resId,
-                    title: item.resDisplay,
-                    icon: 'ios-gear',
-                    path: item.resValue.indexOf('/whole/admin.html') !== -1 ? newBasePath + item.resValue : oldBasePath + item.resValue
-                }
-            ]
+            children: []
         }
+        item.subMenus.map(function (subitem, index) {
+            data.children.push({
+                name: subitem.menuId,
+                title: subitem.menuName,
+                icon: 'ios-gear',
+                path: subitem.menuUrl
+            })
+        })
+
         menus.push(data)
     })
     return menus
