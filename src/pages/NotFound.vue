@@ -17,9 +17,15 @@ export default {
     data() {
         return {
             time: 5,
-            timer: null
+            timer: null,
+            fromPath: ''
         }
     },
+    beforeRouteEnter (to, from, next) {
+        next(vm => vm.$nextTick(function () {
+            vm.fromPath = from.path
+        }));
+   },
     created () {
         this.setIntervalTime()
     },
@@ -37,7 +43,7 @@ export default {
         goBack () {
             clearInterval(this.timer)
             // this.$router.go(-1)
-            this.$router.replace(-1)
+            this.$router.replace(this.fromPath)
         }
     },
     computed: {},
