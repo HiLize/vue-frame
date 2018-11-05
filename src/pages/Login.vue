@@ -1,20 +1,12 @@
 <template>
-    <div class="wrap" style="background-image: url('static/bg.jpg')">
-        <div class="logo-box">
-            <img class="logo" src="static/logo.png" alt="">
-            <span class="title">校园号平台</span>
-        </div>
-        <div class="slogan">
-            <img :src="slogan" alt="">
-        </div>
+    <div class="wrap" style="background-image: url('static/login-bg.png')">
         <div class="qrcode-box">
-            <div v-if="tipMediaDeny" class="media-deny" style="text-align:center;font-size:16px;font-weight:bold;padding-top:100px;">
-                <div>校园号身份</div>
-                <div>不能登录校园号平台</div>
-                <Button style="margin-top:40px" type="primary" @click="freshWin">重新扫码</Button>
+            <div class="slogan">
+                <img src="static/login-logo.png" alt="">
             </div>
-            <div v-else>
-                <span class="top">扫码登录</span>
+            <div>
+                <span class="top">请使用今日校园</span>
+                <span class="top">首页右上方 "扫一扫" 登录</span>
                 <div class="qrcode" id="qrcode"></div>
             </div>
         </div>
@@ -28,27 +20,16 @@ let timer = null, dealy = 2000
 export default {
     data: function () {
         return {
-            tipMediaDeny: false
         }
     },
     computed: {
-        slogan() {
-            return 'static/slogan.png'
-        },
-        logo() {
-            return 'static/logo.png'
-        },
         ...Vuex.mapState({
             index: state => state.index
         })
     },
     mounted() {
-        let type = this.$route.params.type
-        if (type == 1) {
-            this.tipMediaDeny = true
-        } else {
-            this.initQRCode()
-        }
+        this.initQRCode()
+        console.log(location.href, 'hello')
     },
     methods: {
         initQRCode () {
@@ -75,8 +56,10 @@ export default {
 </script>
 <style scoped lang="less" rel="stylesheet/less" scoped>
     .wrap {
+        background-color: #ffffff;
         width: 100vw;
         height: 100vh;
+        min-height:760px;
         min-width:1100px;
         max-width:1920px;
         overflow: auto;
@@ -85,48 +68,56 @@ export default {
         position: relative;
         .logo-box {
             position: absolute;
-            left: 2%;
-            top: 2%;
+            left: 50%;
+            top: 7vw;
+            transform: translateX(-50%);
             .logo {
                 vertical-align: middle;
             }
             .title {
-                font-size: 36px;
-                margin-left: 15px;
+                font-size: 23px;
+                // margin-left: 10px;
                 display: inline-block;
                 vertical-align: middle;
             }
         }
         .slogan {
-            width: 25vw;
-            min-width:220px;
-            max-width:441px;
-            position: absolute;
-            top: 3.5vw;
+            // width: 25vw;
+            // min-width:535px;
+            // max-width:535px;
+            position: relative;
+            // top: 3.5vw;
             left: 50%;
             transform: translateX(-50%);
-            img{
-                width:100%;
-            }
+            margin-bottom: 3vw;
+            // img{
+            //     width:100%;
+            // }
         }
 
         .qrcode-box {
             position: absolute;
             left: 50%;
-            transform: translateX(-50%);
-            top: 13vw;
-            padding: 2vw 6.5vw;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            height: 750px;
+            width: 536px;
+            padding: 60px;
             background: #ffffff;
             text-align: center;
             overflow: hidden;
-            box-shadow: 0px 0 20px #e4e4e4;
+            box-sizing: border-box;
+            // box-shadow: 0px 0 20px #e4e4e4;
 
             .top {
-                font-size: 20px;
-                margin-bottom: 10px;
+                font-size: 16px;
+                line-height: 22px;
                 display: inline-block;
+                width: 100%;
+                color: #f00;
             }
             .qrcode {
+                display: inline-block;
                 width: 310px;
                 min-width:310px;
                 border: solid 1px #000000;
