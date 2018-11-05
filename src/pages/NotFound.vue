@@ -5,7 +5,7 @@
                 <div class="bullshit__headline"><img src="http://next.wisedu.com:8013/uag/error/img/404.png" /></div>
                 <div class="bullshit__404">404</div>
                 <div class="bullshit__info">您访问的页面不存在, 请检查您输入的网址是否正确</div>
-                <div class="bullshit__info">{{time}} 秒后返回上一页 <Button type="text" @click="$router.go(-1)" replace class="bullshit__return-home">立即返回</Button></div>
+                <div class="bullshit__info">{{time}} 秒后返回上一页 <Button type="text" @click="goBack" replace class="bullshit__return-home">立即返回</Button></div>
             </div>
         </div>
     </div>
@@ -16,7 +16,8 @@ export default {
     name: 'notfound',
     data() {
         return {
-            time: 5
+            time: 5,
+            timer: null
         }
     },
     created () {
@@ -24,18 +25,25 @@ export default {
     },
     methods: {
         setIntervalTime () {
-            let that = this
-            var timer = setInterval(function(){
-                if (that.time > 0) {
-                    that.time--
+            let _this = this
+            _this.timer = setInterval(function(){
+                console.log('setIntervalTime')
+                if (_this.time > 0) {
+                    _this.time--
                 } else {
-                    clearInterval(timer)
-                    that.$router.go(-1)
+                   _this.goBack()
                 }
             },1000)
+        },
+        goBack () {
+            clearInterval(this.timer)
+            this.$router.go(-1)
         }
     },
-    computed: {}
+    computed: {},
+    beforeDestroy() {
+        clearInterval(this.timer)
+    }
 }
 </script>
 <style lang="less" scoped>
