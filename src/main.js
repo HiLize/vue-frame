@@ -23,7 +23,7 @@ router.beforeEach((to, from, next) => {
     //         next({ path: '/login' })
     //     }
     // } else {
-        // 已登录，是否已获取到导航列表，若未获取，则获取导航数据并动态添加路由，若以获取避免重复添加导航
+        // 已登录，是否已获取到导航列表，若未获取，则获取导航数据并动态添加路由，若已获取避免重复添加导航
         if (store.state.menu.menuList.length <= 0) {
             store.dispatch('setMenuList')
         }

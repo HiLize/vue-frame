@@ -22,9 +22,9 @@
         <div class="main-header-con" :style="{paddingLeft: shrink?'60px':'200px'}">
             <div class="main-header">
                 <div class="navicon-con">
-                    <Button :style="{transform: 'rotateZ(' + (this.shrink ? '-90' : '0') + 'deg)'}" type="text" @click="toggleClick">
+                    <span :style="{transform: 'rotateZ(' + (this.shrink ? '-90' : '0') + 'deg)', display: 'inline-block'}" type="text" @click="toggleClick">
                         <Icon type="ios-menu" size="32" />
-                    </Button>
+                    </span>
                 </div>
                 <div class="header-middle-con">
                     <div class="main-breadcrumb">
@@ -34,8 +34,19 @@
                 <div class="header-avator-con">
                     <div class="user-dropdown-menu-con">
                         <Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">
-                            <span>xxxx</span>
-                            <Avatar icon="ios-person" style="background: #619fe7;margin-left: 10px;"></Avatar>
+                            <span style="margin: 0 10px;">李小泽</span>
+                            <Dropdown trigger="click">
+                                <a href="javascript:void(0)" style="color: #515a6e">
+                                    <Avatar icon="ios-person"></Avatar>
+                                    <Icon type="md-arrow-dropdown" />
+                                </a>
+                                <DropdownMenu slot="list">
+                                    <DropdownItem>
+                                        <Icon type="ios-log-out" />
+                                        退出登录
+                                    </DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>
                         </Row>
                     </div>
                 </div>
