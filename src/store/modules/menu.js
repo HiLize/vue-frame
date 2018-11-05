@@ -2,38 +2,54 @@ import api from 'api'
 import util from 'util'
 import Util from '@/libs/util'
 import router, { DynamicRoutes } from '@/router'
-import { from } from 'array-flatten';
+
+const defaultManu = [
+    // 导航数据结构
+    {
+        menuId: '1',
+        menuName: 'cross',
+        title: '话题',
+        icon: 'ios-settings',
+        menuUrl: 'http://next.wisedu.com:8013/v3/admin/cpdaily/new/whole/admin.html#/crosstalkmanage',
+        subMenus: []
+    },
+    {
+        menuId: '2',
+        menuName: 'crossTalk',
+        title: '话题管理',
+        icon: 'ios-settings',
+        subMenus: [
+            {
+                menuId: '3',
+                menuName: 'crossTalk',
+                title: '话题管理',
+                icon: 'ios-paper',
+                menuUrl: 'http://next.wisedu.com:8013/v3/admin/cpdaily/new/whole/admin.html#/crosstalkmanage'
+            },
+            {
+                menuId: '4',
+                menuName: 'crosstalkcheck',
+                title: '话题稿征集审核',
+                icon: 'ios-paper',
+                menuUrl: 'http://next.wisedu.com:8013/v3/admin/cpdaily/new/whole/admin.html#/crosstalkmanage/checkmanage'
+            }
+        ]
+    }
+]
 const app = {
     state: {
         userToken: '',
-        menuList: [
-            // 导航数据结构
-            // {
-            //     name: 'crossTalk',
-            //     title: '话题管理',
-            //     icon: 'ios-gear',
-            //     children: [
-            //         {
-            //             name: 'crosstalk',
-            //             title: '话题管理',
-            //             icon: 'ios-paper',
-            //             path: 'http://172.20.6.218:8000/admin.html#/crosstalkmanage'
-            //         },
-            //         {
-            //             name: 'crosstalkcheck',
-            //             title: '话题稿征集审核',
-            //             icon: 'ios-paper',
-            //             path: 'http://172.20.6.218:8000/admin.html#/crosstalkmanage/checkmanage'
-            //         }
-            //     ]
-            // }
-        ]
+        menuList: [],
+        router: []
     },
     getters: {
     },
     mutations: {
         updateState (state, newData) {
             state.menuList = newData
+        },
+        updateRoute (state, newData) {
+            state.router = newData
         },
         Login (state, status) {
             if (status === '') {
@@ -55,10 +71,12 @@ const app = {
                     let routerArr = MainContainer.children.concat(rebuildRoute(res.datas))
                     MainContainer.children = routerArr
                     router.addRoutes(DynamicRoutes)
+                    context.commit('updateRoute', DynamicRoutes)
                 } else {
                     context.commit('Login', '')
                 }
             }).catch(e => {
+                router.addRoutes(DynamicRoutes)
                 context.commit('Login', '')
             })
         }
@@ -71,16 +89,16 @@ function rebuildRoute (datas) {
     datas.map(function (item, index) {
         if (item.subMenus.length <= 0) {
             routeMenu.push({
-                path: `/manage/${item.menuLocalRoute}`,
-                name: item.menuLocalRoute,
+                path: `/manage/${item.menuId}`,
+                name: item.menuId,
                 meta: {title: item.menuName, path: item.menuUrl},
                 component: require('@/pages/Content').default
             })
         } else {
             item.subMenus.map(function (subitem, index) {
                 routeMenu.push({
-                    path: `/manage/${subitem.menuLocalRoute}`,
-                    name: subitem.menuLocalRoute,
+                    path: `/manage/${subitem.menuId}`,
+                    name: subitem.menuId,
                     meta: {title: subitem.menuName, path: subitem.menuUrl},
                     component: require('@/pages/Content').default
                 })
@@ -98,14 +116,14 @@ function rebuildMenuList (state) {
         let data = {
             name: item.menuId,
             title: item.menuName,
-            icon: 'ios-gear',
+            icon: 'ios-settings',
             children: []
         }
         item.subMenus.map(function (subitem, index) {
             data.children.push({
                 name: subitem.menuId,
                 title: subitem.menuName,
-                icon: 'ios-gear',
+                icon: 'ios-paper',
                 path: subitem.menuUrl
             })
         })
