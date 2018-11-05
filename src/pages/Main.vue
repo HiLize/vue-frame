@@ -35,13 +35,13 @@
                     <div class="user-dropdown-menu-con">
                         <Row type="flex" justify="end" align="middle" class="user-dropdown-innercon">
                             <span style="margin: 0 10px;">李小泽</span>
-                            <Dropdown trigger="click">
+                            <Dropdown trigger="click" @on-click="logout">
                                 <a href="javascript:void(0)" style="color: #515a6e">
                                     <Avatar icon="ios-person"></Avatar>
                                     <Icon type="md-arrow-dropdown" />
                                 </a>
                                 <DropdownMenu slot="list">
-                                    <DropdownItem>
+                                    <DropdownItem name='logout'>
                                         <Icon type="ios-log-out" />
                                         退出登录
                                     </DropdownItem>
@@ -71,6 +71,7 @@
     import tagsPageOpened from './components/tags-page-opened.vue';
     import api from 'api'
     import util from 'util'
+    import Util from '@/libs/util'
     export default {
         components: {
             shrinkableMenu,
@@ -123,6 +124,10 @@
                 util.httpPost(api.userInfo,{},{}).then(res => {
                     console.log(res)
                 })
+            },
+            logout(e) {
+                Util.delCookie('adminSessionToken')
+                this.$router.replace({path: `/login`})
             }
         },
         mounted () {

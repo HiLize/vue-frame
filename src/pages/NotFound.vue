@@ -27,7 +27,6 @@ export default {
         setIntervalTime () {
             let _this = this
             _this.timer = setInterval(function(){
-                console.log('setIntervalTime')
                 if (_this.time > 0) {
                     _this.time--
                 } else {
@@ -37,7 +36,8 @@ export default {
         },
         goBack () {
             clearInterval(this.timer)
-            this.$router.go(-1)
+            // this.$router.go(-1)
+            this.$router.replace(-1)
         }
     },
     computed: {},
